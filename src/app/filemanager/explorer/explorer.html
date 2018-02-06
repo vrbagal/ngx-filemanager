@@ -1,0 +1,36 @@
+<div class="tile-view">
+    <ul class="tile-view-list">
+        <li *ngFor="let item of fms.selected.subItems" (dblclick)="fms.setSelected(item)" [ngClass]="{'selected':fms.isExSelected(item)}" [contextMenu]="basicMenu" [contextMenuSubject]="item"  (click)="fms.setExSelected($event,item)">
+          <a>
+            <span  [ngClass]="{'glyphicon':true , 'glyphicon-folder-close': item.type==2, 'glyphicon-file': item.type==1}"></span>
+            <span class="item-text">{{item.name}}</span>
+          </a>            
+        </li>
+    </ul>
+</div>
+
+<context-menu (open)="fms.setExSelected($event,item)" >
+    <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+        <i class="glyphicon glyphicon-cloud-download"></i> Download
+    </ng-template>
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-edit"></i> Rename
+    </ng-template>
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-arrow-right"></i> Move
+    </ng-template>   
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-copy"></i> Copy
+    </ng-template>
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-pencil"></i> Edit
+    </ng-template>
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-lock"></i>  Permissions
+    </ng-template>
+    <ng-template contextMenuItem divider="true"></ng-template>
+    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i class="glyphicon glyphicon-trash"></i> Delete
+    </ng-template>
+    
+  </context-menu>
