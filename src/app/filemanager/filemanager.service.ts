@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { FileItem, ItemType } from './models/fileItem'
+import { FileManagerApiService } from './filemanager.apiService';
 
 @Injectable()
 export class FileManagerService {
 
-  constructor() {
+  constructor(private apiService:FileManagerApiService) 
+  {
     this.setList("");
     this.selected = this.rootItem;
     this
   }
+
   keyPressed: any;
+
   tempSelection: FileItem[] = [];
   rootItem: FileItem;
   selected: FileItem;
+
   setList(path: string) {
     let fm = new FileItem();
     fm.name = "Root";
