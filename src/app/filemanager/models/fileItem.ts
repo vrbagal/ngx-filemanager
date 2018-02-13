@@ -1,11 +1,11 @@
 export enum ItemType {
-    Folder =2,
-    File = 1
+    dir =2,
+    file = 1
 }
 export class FileItem {
     id?: string;
     name: string;
-    type: ItemType;
+    type: string;
     path?: string;
     subItems?: FileItem[];
     isOpen?:boolean

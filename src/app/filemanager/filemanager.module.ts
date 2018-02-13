@@ -9,8 +9,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ExplorerComponent} from './explorer/explorer.component'
 import {ContextMenuModule} from 'ngx-contextmenu'
+import { HttpModule } from '@angular/http';
 @NgModule({
-    imports: [CommonModule,ContextMenuModule.forRoot() ],
+    imports: [CommonModule,ContextMenuModule.forRoot(),HttpModule ],
     exports: [FileManagerComponent],
     declarations: [FileManagerComponent,TreeNodeComponent,FileManagerDirTreeComponent,TreeFolderFilterPipe,ExplorerComponent],
     providers: [FileManagerService,FileManagerApiService],

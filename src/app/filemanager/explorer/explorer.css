@@ -26,7 +26,7 @@
     cursor: pointer;
 }
 .tile-view li a{
-
+    color: #222121;
     text-decoration: none;
 }
 .tile-view li.selected a {

@@ -4,33 +4,39 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { ReturnStatement } from '@angular/compiler';
+import { FilemanagerConfig } from './filemanager.config'
+import { HttpClient } from 'selenium-webdriver/http';
 
 @Injectable()
 export class FileManagerApiService {
+    private _config = FilemanagerConfig.getConfig();
+
     constructor(private http: Http) { }
 
-    rootPath:string;
-    apiUrl:string;
-
-    getUrl(methodName:string)
-    {
-        return `${this.apiUrl}?actionName=${methodName}&rootpath=${this.rootPath}`;
-    }
-
-    getList(path:string){
-        return this.http.get(`${this.getUrl('list')}&path=${path}`);
-    };
-
-    copyFromTo(fromPath:string,toPath:string,isMove:boolean){
-        return this.http.post(this.getUrl('copy'),{'fromPath':fromPath,'toPath':toPath,'isMove':isMove});
-    };
-
-    compress(items:string[],compressedFileName:string)
-    {
-        return this.http.post(this.getUrl('compress'),{'items':items,'outFile':compressedFileName});
-    }
-
-
-
     
+    getUrl(methodName: string) {
+        return `${this._config.apBaseiUrl}${methodName}?rootpath=${this._config.rootPath}`;
+    }
+
+    getList(path: string) {
+        return this.http.post(this.getUrl(this._config.listAction), { "path": path }).map(x=> x.json());
+    };
+
+    copyFromTo(fromPath: string, toPath: string, isMove: boolean) {
+        return this.http.post(this.getUrl('copy'), { 'fromPath': fromPath, 'toPath': toPath, 'isMove': isMove });
+    };
+
+    compress(items: string[], compressedFileName: string) {
+        return this.http.post(this.getUrl('compress'), { 'items': items, 'outFile': compressedFileName });
+    }
+
+    download(items: string[]) {
+        return this.http.post(this.getUrl('download'), { 'items': items });
+    }
+
+
+
+
+
+
 }

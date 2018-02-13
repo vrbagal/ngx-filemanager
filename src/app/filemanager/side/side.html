@@ -1,5 +1,5 @@
  
-<ul *ngFor="let folder of fms.rootItem.subItems" class="tree">
+<ul *ngFor="let folder of fms.rootItem.subItems | treeFolderFilter" class="tree">
     <li>
         <tree-node [folder]="folder"></tree-node>
     </li>

@@ -5,7 +5,7 @@
     <i (click)="toggleExpand(folder)" *ngIf="(folder.subItems && folder.subItems.length && folder.isOpen)" class="glyphicon glyphicon-chevron-down"></i> -->
     <i (click)="fms.toggleExpand(folder)" class="glyphicon glyphicon-folder-close" *ngIf="!folder.isOpen"></i>
     <i (click)="fms.toggleExpand(folder)" class="glyphicon glyphicon-folder-open" *ngIf="folder.isOpen"></i>
-    <span>{{folder.name}} {{folder.type}}</span>
+    <span>{{folder.name}} </span>
 </a>
  
 <ng-container *ngIf="folder.isOpen">

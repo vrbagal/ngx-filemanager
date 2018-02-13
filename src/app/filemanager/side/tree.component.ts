@@ -14,14 +14,8 @@ import { FileManagerService } from '../filemanager.service';
 export class TreeNodeComponent implements OnInit {
     constructor(public fms:FileManagerService ) { }
     @Input()
-    folder:FileItem
-
-
-    // toggleExpand(node)
-    // {
-    //     node.isOpen=!node.isOpen;
-    // }
-
+    folder:FileItem 
+    
     setSelected(node)
     {
         this.fms.selected=node;
@@ -37,11 +31,11 @@ export class TreeNodeComponent implements OnInit {
 })
 export class TreeFolderFilterPipe implements PipeTransform {
     transform(items: FileItem[], filter: Object): any {
-        //debugger
+//debugger
         if (!items) {
             return items;
         }
         
-        return items.filter(item => item.type==ItemType.Folder);
+        return items.filter(item => (item.type.toString()=='dir'));
     }
 }
