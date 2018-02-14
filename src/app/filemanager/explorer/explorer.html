@@ -2,7 +2,7 @@
     <ul class="tile-view-list">
         <li *ngFor="let item of fms.selected.subItems" (dblclick)="fms.setSelected(item)" [ngClass]="{'selected':fms.isExSelected(item)}" [contextMenu]="basicMenu" [contextMenuSubject]="item"  (click)="fms.setExSelected($event,item)">
           <a>
-            <span  [ngClass]="{'glyphicon':true , 'glyphicon-folder-close': item.type==2, 'glyphicon-file': item.type==1}"></span>
+            <span  [ngClass]="{'glyphicon':true , 'glyphicon-folder-close': item.type=='dir', 'glyphicon-file': item.type=='file'}"></span>
             <span class="item-text">{{item.name}}</span>
           </a>            
         </li>

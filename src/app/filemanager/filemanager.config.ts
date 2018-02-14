@@ -3,9 +3,9 @@ export class FilemanagerConfig {
 
     public static getConfig() {
         FilemanagerConfig._config = {
-            apBaseiUrl: "http://localhost:5000",
+            apBaseiUrl: "http://localhost/FM.Api/api",
             listAction: "/list",
-            rootPath:"D:\\Vikrant Data"
+            rootPath:"E:\\projects"
         }
 
         return FilemanagerConfig._config;
