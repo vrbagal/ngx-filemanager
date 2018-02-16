@@ -6,11 +6,17 @@
     font-weight: 700;
     }
 
+.breadcrumb > li >a{
+cursor: pointer;
+}
     
 .breadcrumb>li+li:before {
     padding: 0 5px;
     color: #ccc;
     content: ">\A0";
+}
+.breadcrumb>.active {
+    color: #777;
 }
 </style>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -23,13 +29,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <ol *ngIf="fms.headerData.length" class="breadcrumb">
-                <li><a href="#">Root</a></li>
-                <li *ngFor="let pl of fms.headerData" ><a  href="#">{{pl.name}}</a></li>
-                <!-- <li><a href="#">Library</a></li>
-                <li class="active">Data</li> -->
-              </ol>
-            <!-- <a class="navbar-brand" href="#">{{fms.selected.path}}</a> -->
+            <ol *ngIf="fms.headerData.length" class="breadcrumb">               
+                <li [ngClass]="{'active': pl.isActive}" *ngFor="let pl of fms.headerData" >
+                    <a *ngIf="!pl.isActive ,else elseBlock" (click)="fms.setSelected(pl.node)">{{pl.name}}</a>                
+                    <ng-template #elseBlock>{{pl.name}}</ng-template>                     
+                </li>              
+              </ol>             
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">

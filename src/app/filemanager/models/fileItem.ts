@@ -10,5 +10,6 @@ export class FileItem {
     subItems?: FileItem[];
     isOpen?:boolean
     isSelected?:boolean
+    parent?:FileItem
 }
 

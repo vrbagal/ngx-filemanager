@@ -21,42 +21,48 @@ export class FileManagerService {
   rootItem: FileItem=new FileItem();
   selected: FileItem
   headerData:any=[];
+  
   setRoot() {
-    
-    this.apiService.getList("").subscribe((data:any)=>{      
+
       let fm = new FileItem();
       fm.name =this._config.rootPath;
       fm.id = "qwqw";
-      fm.path =  this._config.rootPath ;
+      fm.path =  "" ;
       this.rootItem = fm;
       this.setSelected(this.rootItem)
-       
-    });
+    
   }
 
-  private mapSubItems(data:any,path:string)
+  private getUUID()
   {
-    return  data.map(x=> {return{ name:x.name,type:x.type,path:path+'\\'+x.name,subItems:[]}});
+    return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);               
+  }
+
+  private mapSubItems(data:any,node:FileItem)
+  {
+    return  data.map(x=> {return{ id:this.getUUID(), name:x.name,type:x.type,path:node.path+'\\'+x.name,subItems:[],parent:node}});
   }
 
   public setSelected(node: FileItem) {
     this.selected = node;
     node.isOpen=true;
     this.getSubItems(node);
-    this.setHeader(node.path);
+    this.setHeader(node );
   }
 
-  private setHeader(path:string)
-  { 
-    var pathStrings=path.replace(this._config.rootPath,"").trim().split("\\").map(x=> {
-      if(x)
-      return x;
-    });
-    var paths =pathStrings.map((val,index)=>{       
-      return {fullPath:path.substring(0,path.indexOf(val)),name:val,isActive:(index==pathStrings.length-1)}
-    });
+  private setHeader(node:FileItem)
+  {      
+    this.headerData =[];
+    let tempHeaders=[]
+    let currentNode=node;
+    
+    while(currentNode)
+    {      
+      tempHeaders.push({name:(currentNode.parent?currentNode.name:"Root"),isActive:(node==currentNode),node:currentNode})
+      currentNode=currentNode.parent;
+    }    
 
-    this.headerData=paths;
+    while(tempHeaders.length) this.headerData.push(tempHeaders.pop());    
   }
 
   public setExSelected(event, item) {
@@ -91,7 +97,7 @@ export class FileManagerService {
   private getSubItems(node)
   {
     this.apiService.getList(node.path).subscribe((data:any)=>{
-      node.subItems=this.mapSubItems(data.result,node.path)
+      node.subItems=this.mapSubItems(data.result,node)
     });
   }
 

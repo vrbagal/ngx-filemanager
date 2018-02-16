@@ -18,7 +18,8 @@ export class FileManagerApiService {
         return `${this._config.apBaseiUrl}${methodName}?rootpath=${this._config.rootPath}`;
     }
 
-    getList(path: string) {
+    getList(path: string) {      
+        
         return this.http.post(this.getUrl(this._config.listAction), { "path": path }).map(x=> x.json());
     };
 
