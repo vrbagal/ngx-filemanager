@@ -79,3 +79,16 @@ float: left;
 /deep/ .dropdown-menu>li>a {
     padding: 6px 20px;
 }
+
+
+/deep/ .modal {
+    position: fixed;
+    top: 15%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}

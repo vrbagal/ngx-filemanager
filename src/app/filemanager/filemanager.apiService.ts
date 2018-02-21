@@ -24,17 +24,22 @@ export class FileManagerApiService {
     };
 
     copyFromTo(fromPath: string, toPath: string, isMove: boolean) {
-        return this.http.post(this.getUrl('copy'), { 'fromPath': fromPath, 'toPath': toPath, 'isMove': isMove });
+        return this.http.post(this.getUrl('/copy'), { 'fromPath': fromPath, 'toPath': toPath, 'isMove': isMove });
     };
 
     compress(items: string[], compressedFileName: string) {
-        return this.http.post(this.getUrl('compress'), { 'items': items, 'outFile': compressedFileName });
+        return this.http.post(this.getUrl('/compress'), { 'items': items, 'outFile': compressedFileName });
     }
 
     download(items: string[]) {
-        return this.http.post(this.getUrl('download'), { 'items': items });
+        return this.http.post(this.getUrl('/download'), { 'items': items });
     }
 
+    rename(path:string,newName:string)
+    {
+        debugger
+        return this.http.post(this.getUrl('/rename'),{item:path,newItemPath:newName}).map(x=> x.json());        
+    }
 
 
 

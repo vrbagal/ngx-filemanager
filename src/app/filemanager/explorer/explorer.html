@@ -13,8 +13,8 @@
     <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
         <i class="glyphicon glyphicon-cloud-download"></i> Download
     </ng-template>
-    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
-        <i class="glyphicon glyphicon-edit"></i> Rename
+    <ng-template *ngIf="fms.tempSelection.length==1"  contextMenuItem let-item (execute)="fms.rename($event.item)">
+        <i  class="glyphicon glyphicon-edit"></i> Rename
     </ng-template>
     <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
         <i class="glyphicon glyphicon-arrow-right"></i> Move
@@ -22,8 +22,8 @@
     <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
         <i class="glyphicon glyphicon-copy"></i> Copy
     </ng-template>
-    <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
-        <i class="glyphicon glyphicon-pencil"></i> Edit
+    <ng-template *ngIf="fms.tempSelection.length==1"  contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+        <i *ngIf="fms.tempSelection.length==1" class="glyphicon glyphicon-pencil"></i> Edit
     </ng-template>
     <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
         <i class="glyphicon glyphicon-lock"></i>  Permissions
@@ -34,3 +34,5 @@
     </ng-template>
     
   </context-menu>
+
+   

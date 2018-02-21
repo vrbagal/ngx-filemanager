@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { FileItem, ItemType } from './models/fileItem'
 import { FileManagerApiService } from './filemanager.apiService';
 import { FilemanagerConfig } from './filemanager.config';
+import { DialogService } from './ng-bs-modal';
+import { RenameComponent } from './explorer/modals.components';
 
 @Injectable()
 export class FileManagerService {
 
-  constructor(private apiService:FileManagerApiService) 
+  constructor(private apiService:FileManagerApiService,private dialogService:DialogService) 
   {
     this.selected=new FileItem();
     
@@ -65,11 +67,19 @@ export class FileManagerService {
     while(tempHeaders.length) this.headerData.push(tempHeaders.pop());    
   }
 
-  public setExSelected(event, item) {
-    if (event.event && event.event.button == 2)
-      return;
+  public setExSelected(e, item) {
+    let event =e;
 
-    if (!event.ctrlKey && !event.shiftKey)
+    if (e.event)
+    {
+      event=e.event;
+      item=e.item;
+    }
+    
+    if(this.tempSelection.length &&  event.button==2 && this.isExSelected(item))
+    return;
+
+    if (!event.ctrlKey && !event.shiftKey )
       this.tempSelection = [];
 
     if (event.shiftKey) {
@@ -94,11 +104,26 @@ export class FileManagerService {
      //
      this.setSelected(node);
   }
+
   private getSubItems(node)
   {
     this.apiService.getList(node.path).subscribe((data:any)=>{
       node.subItems=this.mapSubItems(data.result,node)
     });
+  }
+
+  public rename(node)
+  {    
+     this.dialogService.addDialog(RenameComponent, {name:node.name})
+      .subscribe((newName)=>{          
+          this.apiService.rename(node.path,newName).subscribe(res=>{
+            if(res.result.success)
+            {
+              this.setSelected(this.selected);
+            }
+          });
+      });
+  
   }
 
 }
