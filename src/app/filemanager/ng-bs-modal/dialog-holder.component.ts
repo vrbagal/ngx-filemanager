@@ -49,10 +49,12 @@ export class DialogHolderComponent {
     else {
       this.dialogs.push(_component);
     }
+    
     setTimeout(()=>{
       dialogWrapper.container.nativeElement.classList.add('show');
       dialogWrapper.container.nativeElement.classList.add('in');
     });
+
     if(options.autoCloseTimeout) {
       setTimeout(()=>{
         this.removeDialog(_component);

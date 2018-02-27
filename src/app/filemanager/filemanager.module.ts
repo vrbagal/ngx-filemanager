@@ -13,11 +13,17 @@ import { HttpModule } from '@angular/http';
 import {FilemanagerHeaderComponent} from './header/header.component'
 import {BootstrapModalModule} from './ng-bs-modal'
 import { getHostElement } from '@angular/core/src/render3';
-import { RenameComponent } from './explorer/modals.components';
+
+import {ModalModule} from 'ngx-bootstrap/modal'
+import { ModelPopupsComponent } from './modal-popups/modals.components';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     imports: [CommonModule,ContextMenuModule.forRoot(),HttpModule ,FormsModule,
-        BootstrapModalModule
+        ModalModule.forRoot(),BrowserAnimationsModule,ToastrModule.forRoot()        
     ],
     exports: [FileManagerComponent],
     declarations: [FileManagerComponent,
@@ -25,11 +31,8 @@ import { RenameComponent } from './explorer/modals.components';
         FileManagerDirTreeComponent,
         TreeFolderFilterPipe,
         ExplorerComponent,
-        FilemanagerHeaderComponent,RenameComponent
+        FilemanagerHeaderComponent,ModelPopupsComponent
     ],
-    providers: [FileManagerService,FileManagerApiService],
-    entryComponents :[
-        RenameComponent
-    ]
+    providers: [FileManagerService,FileManagerApiService]    
 })
 export class FileManagerModule { }

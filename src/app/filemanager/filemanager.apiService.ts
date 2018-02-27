@@ -35,6 +35,10 @@ export class FileManagerApiService {
         return this.http.post(this.getUrl('/download'), { 'items': items });
     }
 
+    delete(items: string[]) {
+        return this.http.post(this.getUrl('/delete'), { 'items': items }).map(x=> x.json());;
+    }
+
     rename(path:string,newName:string)
     {
         debugger

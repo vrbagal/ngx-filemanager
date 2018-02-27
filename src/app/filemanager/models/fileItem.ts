@@ -11,5 +11,6 @@ export class FileItem {
     isOpen?:boolean
     isSelected?:boolean
     parent?:FileItem
+    isLoadingsubItems?:boolean=false;
 }
 
