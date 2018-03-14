@@ -92,3 +92,11 @@ float: left;
     -webkit-overflow-scrolling: touch;
     outline: 0;
 }
+
+.grid-view{
+
+}
+.grid-view >tbody>tr.seleted{
+background-color: #222121;
+color: #fff;
+}

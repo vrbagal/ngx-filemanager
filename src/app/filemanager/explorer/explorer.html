@@ -12,7 +12,7 @@
     }
 </style>
 
-<div style="display: none" class="tile-view">
+<div *ngIf="!fms.IsListMode"  class="tile-view">
     <ul class="tile-view-list">
         <li *ngFor="let item of fms.selected.subItems" (dblclick)="fms.setSelected(item)" [ngClass]="{'selected':fms.isExSelected(item)}"
             [contextMenu]="basicMenu" [contextMenuSubject]="item" (click)="fms.setExSelected($event,item)">
@@ -24,13 +24,13 @@
     </ul>
 </div>
 
-<div class="">
+<div class="" *ngIf="fms.IsListMode">
 
-    <table class="table table-hover">
+    <table class="table table-hover grid-view">
         <thead>
            <tr> <th></th>
             <th>Name</th>
-            <th>Type</th>
+            <!-- <th>Type</th> -->
             <th>size</th>
             <th>Date</th>
         </tr>
@@ -40,9 +40,9 @@
             [contextMenu]="basicMenu" [contextMenuSubject]="item" (click)="fms.setExSelected($event,item)">
                 <td> <span [ngClass]="{'glyphicon':true , 'glyphicon-folder-close': item.type=='dir', 'glyphicon-file': item.type=='file'}"></span></td>
                 <td><span class="item-text">{{item.name}}</span></td>
-                <td><span class="item-text">{{item.type}}</span></td>
-                <td><span class="item-text">{{item.size}}</span></td>
-                <td><span class="item-text">{{item.dtCreated}}</span></td>
+                <!-- <td><span class="item-text">{{item.type}}</span></td> -->
+                <td><span class="item-text">{{item.size | fileSize}}</span></td>
+                <td><span class="item-text">  {{item.dtCreated | date}}</span></td>
             </tr>
         </tbody>
     </table>

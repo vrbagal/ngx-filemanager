@@ -13,13 +13,16 @@ import { HttpModule } from '@angular/http';
 import {FilemanagerHeaderComponent} from './header/header.component'
 import {BootstrapModalModule} from './ng-bs-modal'
 import { getHostElement } from '@angular/core/src/render3';
-
+ 
 import {ModalModule} from 'ngx-bootstrap/modal'
 import { ModelPopupsComponent } from './modal-popups/modals.components';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+
+import {FileSizePipe} from './pipes/file-size.pipe'
+
 
 @NgModule({
     imports: [CommonModule,ContextMenuModule.forRoot(),HttpModule ,FormsModule,
@@ -31,7 +34,7 @@ import { ToastrModule } from 'ngx-toastr';
         FileManagerDirTreeComponent,
         TreeFolderFilterPipe,
         ExplorerComponent,
-        FilemanagerHeaderComponent,ModelPopupsComponent
+        FilemanagerHeaderComponent,ModelPopupsComponent,FileSizePipe
     ],
     providers: [FileManagerService,FileManagerApiService]    
 })

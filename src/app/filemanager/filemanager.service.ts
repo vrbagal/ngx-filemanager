@@ -12,6 +12,7 @@ import 'rxjs/Rx' ;
 @Injectable()
 export class FileManagerService {
 
+  
   constructor(private apiService: FileManagerApiService, private modalService: BsModalService, private toast: ToastrService) {
     this.selected = new FileItem();
 
@@ -26,7 +27,7 @@ export class FileManagerService {
   rootItem: FileItem = new FileItem();
   selected: FileItem
   headerData: any = [];
-
+  public IsListMode=false;
   setRoot() {
 
     let fm = new FileItem();
@@ -37,20 +38,40 @@ export class FileManagerService {
     this.setSelected(this.rootItem)
 
   }
+public toggleView(){
+  this.IsListMode=!this.IsListMode;
+}
 
   private getUUID() {
     return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
   }
 
   private mapSubItems(data: any, node: FileItem) {
-    return data.map(x => { return { id: this.getUUID(), name: x.name, type: x.type, path: node.path + '\\' + x.name, subItems: [], parent: node } });
+    return data.map(x => { return { 
+      id: this.getUUID(),
+      name: x.name,
+      type: x.type, 
+      path: node.path + '\\' + x.name, 
+      subItems: [], 
+      parent: node,
+      size:x.size,
+      dtCreated:x.dtCreated
+     } });
   }
 
   public setSelected(node: FileItem) {
+    
+ 
+    if(node.type=='file')
+    return this.handleFileDblClick(node);
     this.selected = node;
     node.isOpen = true;
     this.getSubItems(node);
     this.setHeader(node);
+  }
+
+  handleFileDblClick(node: FileItem) {
+    throw new Error("Method not implemented.");
   }
 
   private setHeader(node: FileItem) {
