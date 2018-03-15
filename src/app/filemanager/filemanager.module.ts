@@ -22,11 +22,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
 import {FileSizePipe} from './pipes/file-size.pipe'
+import { NgUploaderModule } from 'ngx-uploader';
+import { FileUploadModalComponent } from './upload/fileUpload.component';
 
 
 @NgModule({
     imports: [CommonModule,ContextMenuModule.forRoot(),HttpModule ,FormsModule,
-        ModalModule.forRoot(),BrowserAnimationsModule,ToastrModule.forRoot()        
+        ModalModule.forRoot(),BrowserAnimationsModule,ToastrModule.forRoot() ,NgUploaderModule       
     ],
     exports: [FileManagerComponent],
     declarations: [FileManagerComponent,
@@ -34,8 +36,9 @@ import {FileSizePipe} from './pipes/file-size.pipe'
         FileManagerDirTreeComponent,
         TreeFolderFilterPipe,
         ExplorerComponent,
-        FilemanagerHeaderComponent,ModelPopupsComponent,FileSizePipe
+        FilemanagerHeaderComponent,ModelPopupsComponent,FileSizePipe,FileUploadModalComponent
     ],
-    providers: [FileManagerService,FileManagerApiService]    
+    providers: [FileManagerService,FileManagerApiService]   ,
+    entryComponents:[FileUploadModalComponent] 
 })
 export class FileManagerModule { }

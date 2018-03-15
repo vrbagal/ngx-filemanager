@@ -1,4 +1,4 @@
-import { Injectable, ViewChild } from '@angular/core';
+import { Injectable, ViewChild, EventEmitter } from '@angular/core';
 import { FileItem, ItemType } from './models/fileItem'
 import { FileManagerApiService } from './filemanager.apiService';
 import { FilemanagerConfig } from './filemanager.config';
@@ -9,6 +9,10 @@ import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Response } from '@angular/http';
 import 'rxjs/Rx' ;
+
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions } from 'ngx-uploader';
+import { FileUploadModalComponent } from './upload/fileUpload.component';
+
 @Injectable()
 export class FileManagerService {
 
@@ -23,11 +27,21 @@ export class FileManagerService {
 
   keyPressed: any;
 
+  currentPath:string;
   tempSelection: FileItem[] = [];
   rootItem: FileItem = new FileItem();
   selected: FileItem
   headerData: any = [];
   public IsListMode=false;
+
+//upload 
+options: UploaderOptions;
+formData: FormData;
+files: UploadFile[];
+uploadInput: EventEmitter<UploadInput>;
+humanizeBytes: Function;
+dragOver: boolean;
+
   setRoot() {
 
     let fm = new FileItem();
@@ -64,6 +78,9 @@ public toggleView(){
  
     if(node.type=='file')
     return this.handleFileDblClick(node);
+    
+    this.currentPath=node.path;
+
     this.selected = node;
     node.isOpen = true;
     this.getSubItems(node);
@@ -202,6 +219,73 @@ public toggleView(){
         this.bsModalRef.hide();
         this.toast.success("file(s) Deleted successfully");
       }}, (error) => {this.toast.error(error);});
+  }
+
+  //upload methods 
+  public uploadPopup(template){
+    this.files = []; 
+    this.uploadInput = new EventEmitter<UploadInput>(); 
+    this.humanizeBytes = humanizeBytes;
+   let initialState= {
+      options:this.options,
+      onUploadOutput:this.onUploadOutput,
+      uploadInput:this.uploadInput,
+      currentpath:this.currentPath,
+      startUpload:this.startUpload,
+      files:this.files
+    }
+    this.bsModalRef = this.modalService.show(FileUploadModalComponent,{initialState });
+  }
+
+  public onUploadOutput(output: UploadOutput): void {
+    if (output.type === 'allAddedToQueue') { // when all files added in queue
+      // uncomment this if you want to auto upload files when added
+      // const event: UploadInput = {
+      //   type: 'uploadAll',
+      //   url: '/upload',
+      //   method: 'POST',
+      //   data: { foo: 'bar' }
+      // };
+      // this.uploadInput.emit(event);
+    } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') { // add file to array when added
+      this.files.push(output.file);
+    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
+      // update current data in files array for uploading file
+      const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
+      this.files[index] = output.file;
+    } else if (output.type === 'removed') {
+      // remove file from array when removed
+      this.files = this.files.filter((file: UploadFile) => file !== output.file);
+    } else if (output.type === 'dragOver') {
+      this.dragOver = true;
+    } else if (output.type === 'dragOut') {
+      this.dragOver = false;
+    } else if (output.type === 'drop') {
+      this.dragOver = false;
+    }
+  }
+
+  public startUpload(): void {
+    const event: UploadInput = {
+      type: 'uploadAll',
+      url: '/upload',
+      method: 'POST',
+      data: { foo: 'bar' }
+    };
+
+    this.uploadInput.emit(event);
+  }
+
+  cancelUpload(id: string): void {
+    this.uploadInput.emit({ type: 'cancel', id: id });
+  }
+
+  removeFile(id: string): void {
+    this.uploadInput.emit({ type: 'remove', id: id });
+  }
+
+  removeAllFiles(): void {
+    this.uploadInput.emit({ type: 'removeAll' });
   }
 
 }

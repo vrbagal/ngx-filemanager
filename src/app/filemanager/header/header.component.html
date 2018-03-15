@@ -39,10 +39,10 @@ cursor: pointer;
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#" (click)="fms.toggleView()"><i class="glyphicon" [ngClass]="{'glyphicon-th-list': !fms.IsListMode,'glyphicon-th':fms.IsListMode}"></i></a>
+                    <a href="#" (click)="fms.toggleView()"><i class="glyphicon" [ngClass]="{'glyphicon-th-list': !fms.IsListMode,'glyphicon-th': fms.IsListMode}"></i></a>
                 </li>
                 <li>
-                    <a href="#">Settings</a>
+                    <a href="#" (click)="fms.uploadPopup(upload)"><i class="glyphicon glyphicon-upload"></i></a>
                 </li>
                 <li>
                     <a href="#">Profile</a>
